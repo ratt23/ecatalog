@@ -29,10 +29,10 @@ export function useWhiteLabel() {
 
                 // Prepare Category Covers with defaults
                 const defaultCovers = {
-                    'tarif-kamar': '/asset/categories/placeholder.png',
-                    'fasilitas': '/asset/categories/placeholder.png',
-                    'layanan-unggulan': '/asset/categories/placeholder.png',
-                    'contact-person': '/asset/categories/placeholder.png'
+                    'tarif-kamar': '/asset/categories/placeholder.svg',
+                    'fasilitas': '/asset/categories/placeholder.svg',
+                    'layanan-unggulan': '/asset/categories/placeholder.svg',
+                    'contact-person': '/asset/categories/placeholder.svg'
                 };
                 const dbCovers = data['category_covers']?.value ? JSON.parse(data['category_covers'].value) : {};
                 const mergedCovers = { ...defaultCovers, ...dbCovers };
@@ -73,10 +73,10 @@ export function useWhiteLabel() {
                     logoUrl: '/asset/logo/logo.png',
                     themeColor: '#0047AB',
                     categoryCovers: {
-                        'tarif-kamar': '/asset/categories/placeholder.png',
-                        'fasilitas': '/asset/categories/placeholder.png',
-                        'layanan-unggulan': '/asset/categories/placeholder.png',
-                        'contact-person': '/asset/categories/placeholder.png'
+                        'tarif-kamar': '/asset/categories/placeholder.svg',
+                        'fasilitas': '/asset/categories/placeholder.svg',
+                        'layanan-unggulan': '/asset/categories/placeholder.svg',
+                        'contact-person': '/asset/categories/placeholder.svg'
                     },
                     contactEmergency: '(0911) 344 8888',
                     contactCs: '(0911) 351 000',

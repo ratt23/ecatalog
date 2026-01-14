@@ -6,25 +6,25 @@ export default function CategoryAccordion({ activeCategory, setActiveCategory, c
         {
             id: 'tarif-kamar',
             title: 'Tarif Kamar',
-            image: categoryCovers['tarif-kamar'] || '/asset/categories/tarif_kamar.png',
+            image: categoryCovers['tarif-kamar'] || '/asset/categories/placeholder.svg',
             description: 'Informasi lengkap mengenai tipe kamar, fasilitas rawat inap, dan tarif harian terbaru.'
         },
         {
             id: 'fasilitas',
             title: 'Fasilitas',
-            image: categoryCovers['fasilitas'] || '/asset/categories/fasilitas.png',
+            image: categoryCovers['fasilitas'] || '/asset/categories/placeholder.svg',
             description: 'Teknologi medis terkini dan fasilitas penunjang untuk kenyamanan pasien.'
         },
         {
             id: 'layanan-unggulan',
             title: 'Layanan Unggulan',
-            image: categoryCovers['layanan-unggulan'] || '/asset/categories/layanan_unggulan.png',
+            image: categoryCovers['layanan-unggulan'] || '/asset/categories/placeholder.svg',
             description: 'Pusat layanan kesehatan dengan tenaga medis spesialis dan peralatan modern.'
         },
         {
             id: 'contact-person',
             title: 'Contact Person',
-            image: categoryCovers['contact-person'] || '/asset/categories/contact_person.png',
+            image: categoryCovers['contact-person'] || '/asset/categories/placeholder.svg',
             description: 'Layanan bantuan 24 jam dan informasi pendaftaran pasien.'
         }
     ];
