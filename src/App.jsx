@@ -3,6 +3,7 @@ import CategoryAccordion from './components/CategoryAccordion'
 import RoomCard from './components/RoomCard'
 import FacilityCard from './components/FacilityCard'
 import FacilityModal from './components/FacilityModal'
+import ContactCard from './components/ContactCard'
 import { useWhiteLabel } from './hooks/useWhiteLabel'
 import { useCatalogItems } from './hooks/useCatalogItems'
 import { Phone, MapPin, Mail, Clock, Bed, Shield, Star, PhoneCall } from 'lucide-react'
@@ -106,136 +107,97 @@ function App() {
 
             <main className="main-content">
                 {/* Hero / Navigation Section */}
+                {/* Hero / Navigation Section */}
                 <CategoryAccordion
                     activeCategory={activeCategory}
                     setActiveCategory={handleCategoryChange}
                     categoryCovers={whiteLabel?.categoryCovers}
                     categoryVisibility={whiteLabel?.categoryVisibility}
+                    categories={whiteLabel?.ecatalogCategories}
                 />
 
-                {/* Content Sections - Only show the ACTIVE category section */}
-                {activeCategory === 'tarif-kamar' && (
-                    <section id="tarif-kamar" className="content-section fade-in">
+                {/* Content Sections - Dynamic */}
+                {activeCategory && (() => {
+                    const currentCategory = whiteLabel?.ecatalogCategories?.find(c => c.id === activeCategory);
+                    const CardComponent = activeCategory === 'fasilitas' ? FacilityCard :
+                        activeCategory === 'contact-person' ? ContactCard :
+                            RoomCard;
 
-                        {itemsLoading ? (
-                            <div className="text-center py-8 text-gray-400">Memuat data...</div>
-                        ) : catalogItems.length === 0 ? (
-                            <div className="text-center py-8 text-gray-400">Belum ada data tarif kamar</div>
-                        ) : (
-                            <div className="room-classes-grid mt-8">
-                                {catalogItems.map(item => (
-                                    <RoomCard
-                                        key={item.id}
-                                        item={item}
-                                        onImageClick={setSelectedImage}
-                                    />
-                                ))}
-                            </div>
-                        )}
-                    </section>
-                )}
+                    const isContact = activeCategory === 'contact-person';
+                    const isFacility = activeCategory === 'fasilitas';
 
-                {activeCategory === 'fasilitas' && (
-                    <section id="fasilitas" className="content-section fade-in">
-                        {itemsLoading ? (
-                            <div className="text-center py-8 text-gray-400">Memuat data...</div>
-                        ) : catalogItems.length === 0 ? (
-                            <div className="placeholder-content">
-                                <p>Informasi fasilitas rumah sakit.</p>
-                            </div>
-                        ) : (
-                            <div className="facilities-grid mt-8">
-                                {catalogItems.map(item => (
-                                    <FacilityCard
-                                        key={item.id}
-                                        item={item}
-                                        onClick={setSelectedFacility}
-                                    />
-                                ))}
-                            </div>
-                        )}
-                    </section>
-                )}
+                    // Determine grid class
+                    const gridClass = isContact
+                        ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                        : isFacility
+                            ? "facilities-grid mt-8" // Assuming FacilityCard handles its own internal layout or grid wrap
+                            : "room-classes-grid mt-8";
 
-                {activeCategory === 'layanan-unggulan' && (
-                    <section id="layanan-unggulan" className="content-section fade-in">
-                        {itemsLoading ? (
-                            <div className="text-center py-8 text-gray-400">Memuat data...</div>
-                        ) : catalogItems.length === 0 ? (
-                            <div className="placeholder-content">
-                                <p>Detail layanan unggulan kami.</p>
-                            </div>
-                        ) : (
-                            <div className="room-classes-grid mt-8">
-                                {catalogItems.map(item => (
-                                    <RoomCard
-                                        key={item.id}
-                                        item={item}
-                                        onImageClick={setSelectedImage}
-                                    />
-                                ))}
-                            </div>
-                        )}
-                    </section>
-                )}
+                    // Specific empty message
+                    const emptyMsg = isContact ? "Belum ada kontak yang tersedia." : "Belum ada item di kategori ini.";
 
-
-
-                {activeCategory === 'contact-person' && (
-                    <section id="contact-person" className="content-section fade-in">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="bg-zinc-900/50 p-8 rounded-3xl border border-white/5 flex items-center gap-6">
-                                <div className="bg-blue-600 p-4 rounded-2xl">
-                                    <Phone className="text-white" size={32} />
+                    return (
+                        <section id={activeCategory} className="content-section fade-in">
+                            {itemsLoading ? (
+                                <div className="text-center py-8 text-gray-400">Memuat data...</div>
+                            ) : catalogItems.length === 0 ? (
+                                <div className="text-center py-8 text-gray-400 max-w-md mx-auto">
+                                    {isContact ? (
+                                        <div className="bg-zinc-900/50 p-8 rounded-3xl border border-white/5 text-center">
+                                            <Phone size={48} className="text-gray-600 mx-auto mb-4" />
+                                            <p className="text-gray-400">{emptyMsg}</p>
+                                        </div>
+                                    ) : (
+                                        <p>{emptyMsg}</p>
+                                    )}
                                 </div>
-                                <div>
-                                    <h4 className="text-xl font-bold mb-1">IGD / Emergency</h4>
-                                    <p className="text-blue-400 text-2xl font-black">{whiteLabel?.contactEmergency || '(0911) 344 8888'}</p>
+                            ) : (
+                                <div className={gridClass}>
+                                    {catalogItems.map(item => (
+                                        <CardComponent
+                                            key={item.id}
+                                            item={item}
+                                            // Props for specific cards
+                                            onClick={isFacility ? setSelectedFacility : undefined}
+                                            onImageClick={!isContact && !isFacility ? setSelectedImage : undefined}
+                                        />
+                                    ))}
                                 </div>
-                            </div>
-                            <div className="bg-zinc-900/50 p-8 rounded-3xl border border-white/5 flex items-center gap-6">
-                                <div className="bg-green-600 p-4 rounded-2xl">
-                                    <Phone className="text-white" size={32} />
-                                </div>
-                                <div>
-                                    <h4 className="text-xl font-bold mb-1">Informasi / CS</h4>
-                                    <p className="text-green-400 text-2xl font-black">{whiteLabel?.contactCs || '(0911) 351 000'}</p>
-                                </div>
+                            )}
+                        </section>
+                    );
+                })()}
+
+                {/* Lightbox Modal */}
+                {
+                    selectedImage && (
+                        <div
+                            className="fixed inset-0 z-[2000] bg-black/90 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in duration-200"
+                            onClick={() => setSelectedImage(null)}
+                        >
+                            <div className="relative max-w-4xl w-full max-h-[90vh]">
+                                <img
+                                    src={selectedImage}
+                                    alt="Full Preview"
+                                    className="w-full h-full object-contain rounded-lg shadow-2xl"
+                                />
+                                <button
+                                    className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors"
+                                    onClick={() => setSelectedImage(null)}
+                                >
+                                    <span className="text-xl font-bold">Tutup [Esc]</span>
+                                </button>
                             </div>
                         </div>
-                    </section>
-                )}
+                    )
+                }
+
+                {/* Facility Detail Modal */}
+                <FacilityModal
+                    facility={selectedFacility}
+                    onClose={() => setSelectedFacility(null)}
+                />
             </main>
-
-            {/* Lightbox Modal */}
-            {
-                selectedImage && (
-                    <div
-                        className="fixed inset-0 z-[2000] bg-black/90 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in duration-200"
-                        onClick={() => setSelectedImage(null)}
-                    >
-                        <div className="relative max-w-4xl w-full max-h-[90vh]">
-                            <img
-                                src={selectedImage}
-                                alt="Full Preview"
-                                className="w-full h-full object-contain rounded-lg shadow-2xl"
-                            />
-                            <button
-                                className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors"
-                                onClick={() => setSelectedImage(null)}
-                            >
-                                <span className="text-xl font-bold">Tutup [Esc]</span>
-                            </button>
-                        </div>
-                    </div>
-                )
-            }
-
-            {/* Facility Detail Modal */}
-            <FacilityModal
-                facility={selectedFacility}
-                onClose={() => setSelectedFacility(null)}
-            />
 
             <footer className="fixed bottom-0 left-0 w-full bg-[#0f1d3d] text-white z-40 py-2.5 font-['Inter'] text-xs shadow-[0_-2px_10px_rgba(0,0,0,0.1)] border-t border-white/10">
                 <div className="max-w-[1400px] mx-auto px-6 flex justify-between items-center flex-wrap gap-2.5 sm:flex-row flex-col text-center sm:text-left">

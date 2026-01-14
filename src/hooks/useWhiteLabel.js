@@ -54,7 +54,16 @@ export function useWhiteLabel() {
                             'fasilitas': true,
                             'layanan-unggulan': true,
                             'contact-person': true
-                        }
+                        },
+                    // Dynamic Categories
+                    ecatalogCategories: data['ecatalog_categories']?.value
+                        ? (typeof data['ecatalog_categories']?.value === 'string' ? JSON.parse(data['ecatalog_categories']?.value) : data['ecatalog_categories']?.value)
+                        : [
+                            { id: 'tarif-kamar', label: 'Tarif Kamar' },
+                            { id: 'fasilitas', label: 'Fasilitas' },
+                            { id: 'layanan-unggulan', label: 'Layanan Unggulan' },
+                            { id: 'contact-person', label: 'Contact Person' }
+                        ]
                 };
 
                 setSettings(transformed);
