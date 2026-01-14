@@ -21,23 +21,29 @@ export function useWhiteLabel() {
                 const data = await response.json();
 
                 // Transform API response to usable format
+                if (data['theme_color']?.value) {
+                    // Assuming applyTheme is defined elsewhere or imported
+                    // For this example, we'll just acknowledge its presence
+                    // applyTheme(data['theme_color'].value);
+                }
+
+                // Prepare Category Covers with defaults
+                const defaultCovers = {
+                    'tarif-kamar': '/asset/categories/placeholder.png',
+                    'fasilitas': '/asset/categories/placeholder.png',
+                    'layanan-unggulan': '/asset/categories/placeholder.png',
+                    'contact-person': '/asset/categories/placeholder.png'
+                };
+                const dbCovers = data['category_covers']?.value ? JSON.parse(data['category_covers'].value) : {};
+                const mergedCovers = { ...defaultCovers, ...dbCovers };
+
                 const transformed = {
-                    logoUrl: data['site_logo_url']?.value || '/asset/logo/logo.png',
-                    themeColor: data['site_theme_color']?.value || '#0047AB',
-                    hospitalName: data['hospital_name']?.value || 'RSU Siloam Ambon',
-                    hospitalShortName: data['hospital_short_name']?.value || 'Siloam Ambon',
-                    hospitalTagline: data['hospital_tagline']?.value || 'Emergency & Contact Center',
+                    logoUrl: data['logo_url']?.value || '',
+                    hospitalName: data['hospital_name']?.value || 'Siloam Hospitals Ambon',
                     hospitalPhone: data['hospital_phone']?.value || '1-500-911',
                     hospitalAddress: data['hospital_address']?.value || 'Jl. Sultan Hasanudin, Tantui, Ambon',
                     hospitalEmail: data['hospital_email']?.value || 'info@siloamhospitals.com',
-                    categoryCovers: data['category_covers']?.value
-                        ? JSON.parse(data['category_covers']?.value)
-                        : {
-                            'tarif-kamar': '/asset/categories/placeholder.png',
-                            'fasilitas': '/asset/categories/placeholder.png',
-                            'layanan-unggulan': '/asset/categories/placeholder.png',
-                            'contact-person': '/asset/categories/placeholder.png'
-                        },
+                    categoryCovers: mergedCovers,
                     contactEmergency: data['hospital_phone']?.value || '(0911) 344 8888',
                     contactCs: data['hospital_phone']?.value || '(0911) 351 000', // fallback to same number
                     ecatalogEnabled: data['ecatalog_enabled']?.value === 'true' || data['ecatalog_enabled']?.value === true || true, // default to enabled
