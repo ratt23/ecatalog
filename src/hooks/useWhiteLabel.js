@@ -39,7 +39,7 @@ export function useWhiteLabel() {
 
                 const transformed = {
                     logoUrl: data['logo_url']?.value || '',
-                    hospitalName: data['hospital_name']?.value || 'Siloam Hospitals Ambon',
+                    hospitalName: data['hospital_name']?.value || 'RSU Siloam Ambon',
                     hospitalPhone: data['hospital_phone']?.value || '1-500-911',
                     hospitalAddress: data['hospital_address']?.value || 'Jl. Sultan Hasanudin, Tantui, Ambon',
                     hospitalEmail: data['hospital_email']?.value || 'info@siloamhospitals.com',
