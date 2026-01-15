@@ -1,7 +1,7 @@
 // Custom hook to fetch catalog items from Dashboard
 import { useState, useEffect } from 'react';
 
-const API_BASE = import.meta.env.VITE_DASHBOARD_API || 'https://dashdev2.netlify.app/.netlify/functions';
+const API_BASE = import.meta.env.VITE_DASHBOARD_API || 'https://shab.web.id/.netlify/functions';
 
 export function useCatalogItems(category) {
     const [items, setItems] = useState([]);
