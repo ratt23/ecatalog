@@ -65,7 +65,7 @@ export default function CategoryAccordion({ activeCategory, setActiveCategory, c
                 <div className="fixed-category-header">
                     <div className="header-background">
                         <img
-                            src={activeCatDetails.image}
+                            src={activeCatDetails.image.includes('res.cloudinary.com') ? activeCatDetails.image.replace('https://res.cloudinary.com', '/cloudinary-proxy') : activeCatDetails.image}
                             alt={activeCat.label}
                             className="w-full h-full object-cover"
                             onError={(e) => {
@@ -107,7 +107,7 @@ export default function CategoryAccordion({ activeCategory, setActiveCategory, c
                                 >
                                     <div className="accordion-image-bg">
                                         <img
-                                            src={details.image}
+                                            src={details.image.includes('res.cloudinary.com') ? details.image.replace('https://res.cloudinary.com', '/cloudinary-proxy') : details.image}
                                             alt={cat.label}
                                             className="w-full h-full object-cover absolute inset-0"
                                             onError={(e) => {

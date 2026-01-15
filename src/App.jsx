@@ -68,7 +68,7 @@ function App() {
             <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 flex items-center justify-center p-6">
                 <div className="max-w-2xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden">
                     <div className="bg-blue-900 p-8 text-center">
-                        <img src={whiteLabel?.logoUrl || '/asset/logo/logo.png'} alt="Logo" className="h-20 mx-auto mb-4" />
+                        <img src={whiteLabel?.logoUrl ? (whiteLabel.logoUrl.includes('res.cloudinary.com') ? whiteLabel.logoUrl.replace('https://res.cloudinary.com', '/cloudinary-proxy') : whiteLabel.logoUrl) : '/asset/logo/logo.png'} alt="Logo" className="h-20 mx-auto mb-4" />
                         <h1 className="text-3xl font-bold text-white">{whiteLabel?.hospitalName || 'RSU Siloam Ambon'}</h1>
                     </div>
                     <div className="p-12 text-center">
@@ -96,7 +96,7 @@ function App() {
             <header className="app-header">
                 <div className="header-container">
                     <div className="header-logo">
-                        <img src={whiteLabel?.logoUrl || '/asset/logo/logo.png'} alt={whiteLabel?.hospitalName || 'RSU Siloam Ambon'} className="h-12" />
+                        <img src={whiteLabel?.logoUrl ? (whiteLabel.logoUrl.includes('res.cloudinary.com') ? whiteLabel.logoUrl.replace('https://res.cloudinary.com', '/cloudinary-proxy') : whiteLabel.logoUrl) : '/asset/logo/logo.png'} alt={whiteLabel?.hospitalName || 'RSU Siloam Ambon'} className="h-12" />
                     </div>
                     <div className="text-right">
                         <h1 className="text-xl font-bold leading-none mb-1" style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, color: whiteLabel?.themeColor || '#0047AB' }}>E-CATALOG</h1>
