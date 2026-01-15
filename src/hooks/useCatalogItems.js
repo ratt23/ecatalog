@@ -1,7 +1,7 @@
 // Custom hook to fetch catalog items from Dashboard
 import { useState, useEffect } from 'react';
 
-const API_BASE = import.meta.env.VITE_DASHBOARD_API || 'https://shab.web.id/.netlify/functions';
+const API_BASE = import.meta.env.VITE_DASHBOARD_API || 'https://dashdev2.netlify.app/.netlify/functions';
 
 export function useCatalogItems(category) {
     const [items, setItems] = useState([]);
@@ -20,7 +20,7 @@ export function useCatalogItems(category) {
                 setLoading(true);
                 setError(null);
 
-                const response = await fetch(`${API_BASE}/api/catalog-items?category=${category}`);
+                const response = await fetch(`${API_BASE}/catalog-list?category=${category}`);
 
                 if (!response.ok) {
                     throw new Error(`Failed to fetch catalog items for ${category}`);
