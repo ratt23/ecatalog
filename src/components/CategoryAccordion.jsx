@@ -118,25 +118,22 @@ export default function CategoryAccordion({ activeCategory, setActiveCategory, c
                                         />
                                         <div className="image-overlay" />
                                         {isDisabled && (
-                                            <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10">
-                                                <div className="text-center">
-                                                    <Construction size={32} className="mx-auto mb-2 text-orange-400" />
-                                                    <span className="text-white font-semibold text-sm">Coming Soon</span>
-                                                </div>
+                                            <div className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center z-10 p-4 text-center">
+                                                <Construction size={32} className="mb-2 text-orange-400" />
+                                                <span className="text-white font-bold text-lg mb-1">{cat.label}</span>
+                                                <span className="text-orange-400 text-xs uppercase tracking-wider font-semibold">Coming Soon</span>
                                             </div>
                                         )}
                                     </div>
 
-                                    <div className="accordion-content">
-                                        <div className="accordion-header">
-                                            <h3 className="cat-title">{cat.label}</h3>
-                                            {isDisabled ? (
-                                                <span className="text-xs bg-orange-500 text-white px-2 py-1 rounded-full">Coming Soon</span>
-                                            ) : (
+                                    {!isDisabled && (
+                                        <div className="accordion-content">
+                                            <div className="accordion-header">
+                                                <h3 className="cat-title">{cat.label}</h3>
                                                 <ChevronDown className="chevron-icon" size={20} />
-                                            )}
+                                            </div>
                                         </div>
-                                    </div>
+                                    )}
                                 </div>
                             );
                         })}
