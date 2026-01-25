@@ -845,3 +845,18 @@ h2 {
     padding: 1rem;
   }
 }
+/* Fix mobile layout for category titles */
+@media (max-width: 768px) {
+  .cat-title {
+    font-size: 1.1rem !important;
+    white-space: normal !important;
+    line-height: 1.2;
+    max-width: 85%;
+    display: block;
+  }
+  
+  .accordion-header {
+      align-items: flex-end;
+  }
+}
+
