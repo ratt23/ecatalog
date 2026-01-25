@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, AlertCircle, ChevronDown } from 'lucide-react';
+import { Search, AlertCircle, ChevronDown, X } from 'lucide-react';
 import { getApiBaseUrl } from '../utils/apiConfig';
 
 const ITEMS_PER_PAGE = 20;
@@ -7,6 +7,7 @@ const ITEMS_PER_PAGE = 20;
 export default function RadiologySearch() {
     const [searchTerm, setSearchTerm] = useState('');
     const [items, setItems] = useState([]);
+    const [selectedItem, setSelectedItem] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [debouncedSearch, setDebouncedSearch] = useState('');
@@ -137,7 +138,8 @@ export default function RadiologySearch() {
                                     {items.map((item, index) => (
                                         <tr
                                             key={`${item.id}-${index}`}
-                                            className="hover:bg-blue-50/50 transition-colors duration-150 group"
+                                            className="hover:bg-blue-50/50 transition-colors duration-150 group cursor-pointer"
+                                            onClick={() => setSelectedItem(item)}
                                         >
                                             <td className="px-8 py-5 whitespace-nowrap">
                                                 <span className="inline-flex items-center px-3 py-1 rounded-lg text-xs font-bold bg-blue-100 text-blue-700 group-hover:bg-blue-200 transition-colors">
@@ -198,6 +200,52 @@ export default function RadiologySearch() {
                     </div>
                 )}
             </div>
+
+            {/* Detail Modal */}
+            {selectedItem && (
+                <div className="fixed inset-0 z-[1001] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setSelectedItem(null)}>
+                    <div className="bg-white rounded-3xl w-full max-w-md p-6 shadow-2xl relative transform transition-all scale-100" onClick={e => e.stopPropagation()}>
+                        <button
+                            className="absolute top-4 right-4 p-2 bg-gray-100 rounded-full text-gray-500 hover:bg-gray-200 transition-colors"
+                            onClick={() => setSelectedItem(null)}
+                        >
+                            <X size={20} />
+                        </button>
+
+                        <div className="mt-2">
+                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700 mb-4">
+                                {selectedItem.category}
+                            </span>
+
+                            <h3 className="text-2xl font-bold text-gray-900 leading-tight mb-2">
+                                {selectedItem.name}
+                            </h3>
+
+                            {selectedItem.common_name && (
+                                <p className="text-gray-500 font-medium text-sm mb-6 pb-6 border-b border-gray-100">
+                                    {selectedItem.common_name}
+                                </p>
+                            )}
+
+                            {!selectedItem.common_name && <div className="mb-6 pb-6 border-b border-gray-100"></div>}
+
+                            <div className="space-y-1">
+                                <p className="text-xs text-gray-400 uppercase tracking-wider font-bold">Estimasi Biaya</p>
+                                <p className="text-3xl font-extrabold text-[#0f1d3d]">
+                                    {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(selectedItem.price)}
+                                </p>
+                            </div>
+
+                            <button
+                                className="w-full mt-8 bg-[#0f1d3d] text-white py-3.5 rounded-xl font-bold text-sm hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20"
+                                onClick={() => setSelectedItem(null)}
+                            >
+                                Tutup
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <div className="mt-8 p-4 bg-blue-50/50 rounded-xl border border-blue-100 text-center">
                 <p className="text-sm text-blue-800">
