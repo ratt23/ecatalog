@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from 'react';
+import { Search, AlertCircle, ChevronDown } from 'lucide-react';
 import { getApiBaseUrl } from '../utils/apiConfig';
 
 const ITEMS_PER_PAGE = 20;
