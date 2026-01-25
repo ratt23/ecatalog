@@ -11,17 +11,18 @@ const API_SERVERS = {
  * Get API base URL with override support
  */
 // Force correct production API
-if (!import.meta.env.DEV) {
-    return API_SERVERS.dashdev4;
-}
+export function getApiBaseUrl() {
+    if (!import.meta.env.DEV) {
+        return API_SERVERS.dashdev4;
+    }
 
-const override = localStorage.getItem('api_server_override');
-if (override && API_SERVERS[override]) {
-    console.log(`🔄 Using API override: ${override}`);
-    return API_SERVERS[override];
-}
+    const override = localStorage.getItem('api_server_override');
+    if (override && API_SERVERS[override]) {
+        console.log(`🔄 Using API override: ${override}`);
+        return API_SERVERS[override];
+    }
 
-return API_SERVERS.local;
+    return API_SERVERS.local;
 }
 
 export function setApiServer(serverKey) {
