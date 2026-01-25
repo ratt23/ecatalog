@@ -10,19 +10,18 @@ const API_SERVERS = {
 /**
  * Get API base URL with override support
  */
-export function getApiBaseUrl() {
-    const override = localStorage.getItem('api_server_override');
-    if (override && API_SERVERS[override]) {
-        console.log(`🔄 Using API override: ${override}`);
-        return API_SERVERS[override];
-    }
+// Force correct production API
+if (!import.meta.env.DEV) {
+    return API_SERVERS.dashdev4;
+}
 
-    const envUrl = import.meta.env.VITE_API_BASE_URL;
-    if (envUrl) {
-        return envUrl;
-    }
+const override = localStorage.getItem('api_server_override');
+if (override && API_SERVERS[override]) {
+    console.log(`🔄 Using API override: ${override}`);
+    return API_SERVERS[override];
+}
 
-    return import.meta.env.DEV ? API_SERVERS.local : API_SERVERS.dashdev4;
+return API_SERVERS.local;
 }
 
 export function setApiServer(serverKey) {
