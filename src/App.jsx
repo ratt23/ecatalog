@@ -92,7 +92,7 @@ function App() {
     // Also inject cover image if needed (locally, since we can't edit DB easily)
     const categoryCovers = {
         ...whiteLabel?.categoryCovers,
-        'radiology': whiteLabel?.categoryCovers?.['radiology'] || '/asset/categories/radiology.jpg' // You might need to add this asset or use a placeholder
+        'radiology': whiteLabel?.categoryCovers?.['radiology'] || '/asset/categories/radiology.png' // Use the png we just created
     };
 
     return (
