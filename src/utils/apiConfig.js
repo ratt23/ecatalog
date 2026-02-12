@@ -12,16 +12,24 @@ const API_SERVERS = {
  */
 // Force correct production API
 export function getApiBaseUrl() {
-    if (!import.meta.env.DEV) {
-        return API_SERVERS.dashdev4;
+    // 1. Prefer Environment Variable (Build-time or Runtime if injected)
+    if (import.meta.env.VITE_API_BASE_URL) {
+        return import.meta.env.VITE_API_BASE_URL;
     }
 
+    // 2. Production Fallback (if no env var)
+    if (!import.meta.env.DEV) {
+        return API_SERVERS.dashdev2;
+    }
+
+    // 3. Local Development Overrides
     const override = localStorage.getItem('api_server_override');
     if (override && API_SERVERS[override]) {
         console.log(`🔄 Using API override: ${override}`);
         return API_SERVERS[override];
     }
 
+    // 4. Default Local
     return API_SERVERS.local;
 }
 
